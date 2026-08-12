@@ -11,6 +11,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -40,6 +41,8 @@ nav { display: flex; gap: 40px; font-size: 14px; }
 nav a, footer a { position: relative; }
 nav a::after, footer div a::after { content: ""; position: absolute; left: 0; bottom: -4px; width: 100%; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform .2s; }
 nav a:hover::after, footer div a:hover::after { transform: scaleX(1); transform-origin: left; }
+nav a.active { color: var(--accent); }
+nav a.active::after { transform: scaleX(1); }
 .icon-button { justify-self: end; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: inherit; cursor: pointer; transition: .2s; }
 .icon-button:hover { border-color: var(--accent); color: var(--accent); transform: rotate(12deg); }
 
@@ -81,7 +84,7 @@ main { overflow: hidden; }
 .button-link { display: inline-block; margin-top: 38px; padding: 12px 24px; border: 1px solid rgba(255,255,255,.4); border-radius: 30px; font-size: 13px; transition: .2s; }
 .button-link:hover { background: var(--accent); border-color: var(--accent); }
 
-.articles-section { width: min(1100px, calc(100% - 48px)); margin: 0 auto; padding: 130px 0; }
+.articles-section { width: min(1100px, calc(100% - 48px)); min-height: calc(100vh - 252px); margin: 0 auto; padding: 100px 0 130px; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; }
 .search-wrap { display: flex; align-items: center; width: 230px; border-bottom: 1px solid var(--line); }
 .search-wrap input { width: 100%; padding: 10px 2px; border: 0; outline: 0; background: transparent; color: inherit; }
@@ -117,7 +120,7 @@ main { overflow: hidden; }
 .subscribe-form input::placeholder { color: rgba(28,39,34,.65); }
 .subscribe-form button { padding: 0; border: 0; color: var(--ink); background: transparent; font-weight: 600; cursor: pointer; }
 .form-message { position: absolute; top: 55px; font-size: 13px; }
-.manager { padding: 100px max(24px, calc((100vw - 1100px)/2)); background: var(--paper-deep); }
+.manager { min-height: calc(100vh - 252px); padding: 100px max(24px, calc((100vw - 1100px)/2)); background: var(--paper-deep); }
 .manager-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 38px; }
 .manager-heading h2 { margin: 0; font: 600 clamp(32px, 4vw, 52px)/1.4 var(--serif); }
 .manager-heading p:last-child { margin-bottom: 0; color: var(--muted); }

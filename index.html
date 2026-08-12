@@ -13,15 +13,14 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="拾光筆記首頁">
+    <a class="brand route-link" href="#home" aria-label="拾光筆記首頁" data-route="home">
       <span class="brand-mark" aria-hidden="true">拾</span>
       <span>拾光筆記</span>
     </a>
     <nav aria-label="主要導覽">
-      <a href="#articles">文章</a>
-      <a href="#about">關於</a>
-      <a href="#newsletter">來信</a>
-      <a href="#manager">管理</a>
+      <a class="route-link" href="#home" data-route="home">首頁</a>
+      <a class="route-link" href="#articles" data-route="articles">文章</a>
+      <a class="route-link" href="#manager" data-route="manager">管理</a>
     </nav>
     <button class="icon-button theme-toggle" type="button" aria-label="切換深色模式" title="切換深色模式">
       <span class="theme-icon" aria-hidden="true">◐</span>
@@ -29,7 +28,7 @@
   </header>
 
   <main id="top">
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title" data-page="home">
       <div class="hero-copy">
         <p class="eyebrow">Issue 24 · 生活觀察誌</p>
         <h1 id="hero-title">在快速的世界裡，<em>慢慢想清楚。</em></h1>
@@ -46,7 +45,7 @@
       </div>
     </section>
 
-    <section class="featured" aria-labelledby="featured-title">
+    <section class="featured" aria-labelledby="featured-title" data-page="home">
       <div class="featured-visual" role="img" aria-label="抽象的晨光與窗景插畫">
         <span class="window-sun"></span>
         <span class="window-line line-one"></span>
@@ -62,7 +61,7 @@
       </article>
     </section>
 
-    <section class="articles-section" id="articles" aria-labelledby="articles-title">
+    <section class="articles-section" id="articles" aria-labelledby="articles-title" data-page="articles" hidden>
       <div class="section-heading">
         <div>
           <p class="eyebrow">Latest stories</p>
@@ -130,7 +129,7 @@
       <p class="no-results" hidden>沒有找到符合的文章，換個關鍵字試試看。</p>
     </section>
 
-    <section class="about" id="about" aria-labelledby="about-title">
+    <section class="about" id="about" aria-labelledby="about-title" data-page="home">
       <div class="portrait" aria-hidden="true"><span>拾</span></div>
       <div>
         <p class="eyebrow">About the writer</p>
@@ -140,7 +139,7 @@
       </div>
     </section>
 
-    <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
+    <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title" data-page="home">
       <div>
         <p class="eyebrow">A quiet letter</p>
         <h2 id="newsletter-title">偶爾，寄一封信給你。</h2>
@@ -153,7 +152,7 @@
         <p class="form-message" role="status"></p>
       </form>
     </section>
-    <section class="manager" id="manager" aria-labelledby="manager-title">
+    <section class="manager" id="manager" aria-labelledby="manager-title" data-page="manager" hidden>
       <div class="manager-heading">
         <div><p class="eyebrow">Article studio</p><h2 id="manager-title">文章管理</h2><p>新增、編輯或刪除文章；變更會儲存在這台裝置。</p></div>
         <button class="primary-button" id="add-article" type="button">＋ 新增文章</button>
@@ -184,7 +183,7 @@
   </dialog>
 
   <footer>
-    <a class="brand footer-brand" href="#top"><span class="brand-mark">拾</span><span>拾光筆記</span></a>
+    <a class="brand footer-brand route-link" href="#home" data-route="home"><span class="brand-mark">拾</span><span>拾光筆記</span></a>
     <p>© 2026 拾光筆記 · 保留思考的餘地</p>
     <div><a href="#">Instagram</a><a href="#">Threads</a></div>
   </footer>

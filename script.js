@@ -117,4 +117,23 @@ const savedTheme = localStorage.getItem('blog-theme'); setTheme(savedTheme ? sav
 themeToggle.addEventListener('click', () => { const dark = !body.classList.contains('dark'); setTheme(dark); localStorage.setItem('blog-theme', dark ? 'dark' : 'light'); });
 document.querySelector('.subscribe-form').addEventListener('submit', event => { event.preventDefault(); const form = event.currentTarget; form.querySelector('.form-message').textContent = `謝謝你！下一封筆記會寄到 ${form.querySelector('input').value}`; form.querySelector('button').textContent = '已訂閱'; form.querySelector('button').disabled = true; });
 
-renderArticles(); renderManager();
+const pageTitles = { home: '拾光筆記｜設計、科技與日常', articles: '所有文章｜拾光筆記', manager: '文章管理｜拾光筆記' };
+function showPage(route, shouldScroll = true) {
+  const page = pageTitles[route] ? route : 'home';
+  document.querySelectorAll('[data-page]').forEach(section => { section.hidden = section.dataset.page !== page; });
+  document.querySelectorAll('nav .route-link').forEach(link => {
+    const active = link.dataset.route === page;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+  });
+  document.title = pageTitles[page];
+  if (shouldScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function routeFromHash() { return location.hash.slice(1).split('?')[0] || 'home'; }
+window.addEventListener('hashchange', () => showPage(routeFromHash()));
+document.querySelectorAll('.route-link').forEach(link => link.addEventListener('click', () => {
+  if (routeFromHash() === link.dataset.route) showPage(link.dataset.route);
+}));
+
+renderArticles(); renderManager(); showPage(routeFromHash(), false);
