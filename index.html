@@ -56,7 +56,7 @@
         <h2 id="featured-title">從零建立可靠的 CI/CD Pipeline</h2>
         <p>從 commit 到 production，拆解自動化測試、映像檔建置、漸進式部署與快速回滾，讓每次上線都可預測、可追蹤。</p>
         <div class="article-meta"><span>2026.08.12</span><span>10 分鐘閱讀</span></div>
-        <a class="button-link" href="#article-morning">繼續閱讀</a>
+        <a class="button-link" href="#article/docker-1">繼續閱讀</a>
       </article>
     </section>
 
@@ -115,6 +115,23 @@
       <div class="manager-list" id="manager-list"></div>
       <p class="manager-empty" id="manager-empty" hidden>目前沒有文章，新增第一篇吧。</p>
     </section>
+    <section class="article-page" id="article-page" data-page="article" hidden>
+      <div class="article-page-inner">
+        <a class="back-link" href="#articles" aria-label="返回文章列表">← 返回所有文章</a>
+        <header class="article-page-header">
+          <p class="category" id="reader-category"></p>
+          <h1 id="reader-title"></h1>
+          <p class="article-lead" id="reader-summary"></p>
+          <div class="article-meta" id="reader-meta"></div>
+        </header>
+        <div class="article-divider" aria-hidden="true"><span>&lt;/&gt;</span></div>
+        <article class="reader-content" id="reader-content"></article>
+        <footer class="article-page-footer">
+          <p>EOF · 感謝閱讀</p>
+          <a href="#articles">繼續瀏覽技術文章 →</a>
+        </footer>
+      </div>
+    </section>
   </main>
 
   <dialog class="article-dialog" id="article-dialog" aria-labelledby="dialog-title">
@@ -131,10 +148,6 @@
       <label>文章內容<textarea id="article-content" rows="8" required placeholder="開始寫作…"></textarea></label>
       <div class="dialog-actions"><button class="secondary-button cancel-edit" type="button">取消</button><button class="primary-button" type="submit">儲存文章</button></div>
     </form>
-  </dialog>
-
-  <dialog class="reader-dialog" id="reader-dialog" aria-labelledby="reader-title">
-    <article><button class="dialog-close reader-close" type="button" aria-label="關閉">×</button><p class="category" id="reader-category"></p><h2 id="reader-title"></h2><div class="article-meta" id="reader-meta"></div><div class="reader-content" id="reader-content"></div></article>
   </dialog>
 
   <footer>

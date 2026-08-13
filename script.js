@@ -16,7 +16,6 @@ const managerList = document.querySelector('#manager-list');
 const noResults = document.querySelector('.no-results');
 const managerEmpty = document.querySelector('#manager-empty');
 const editor = document.querySelector('#article-dialog');
-const reader = document.querySelector('#reader-dialog');
 const articleForm = document.querySelector('#article-form');
 
 function loadArticles() {
@@ -37,7 +36,7 @@ function renderArticles() {
   const visible = articles.filter(article => (activeCategory === 'all' || article.category === activeCategory) && (!term || `${article.title} ${article.summary} ${article.content}`.toLowerCase().includes(term)));
   articleGrid.replaceChildren();
   visible.forEach((article, index) => {
-    const card = document.createElement('article'); card.className = 'article-card';
+    const card = document.createElement('article'); card.className = 'article-card'; card.dataset.id = article.id; card.tabIndex = 0; card.setAttribute('aria-label', `閱讀：${article.title}`);
     const number = document.createElement('div'); number.className = 'card-number'; number.textContent = String(index + 1).padStart(2, '0');
     const content = document.createElement('div'); content.className = 'card-body';
     const category = document.createElement('p'); category.className = 'category'; category.textContent = categoryNames[article.category];
@@ -78,7 +77,6 @@ function openEditor(article = null) {
 
 document.querySelector('#add-article').addEventListener('click', () => openEditor());
 document.querySelectorAll('.dialog-close, .cancel-edit').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
-document.querySelector('.reader-close').addEventListener('click', () => reader.close());
 document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); }));
 
 articleForm.addEventListener('submit', event => {
@@ -98,13 +96,11 @@ managerList.addEventListener('click', event => {
 });
 
 articleGrid.addEventListener('click', event => {
-  const button = event.target.closest('.read-button'); if (!button) return;
-  const article = articles.find(item => item.id === button.dataset.id); if (!article) return;
-  document.querySelector('#reader-category').textContent = categoryNames[article.category];
-  document.querySelector('#reader-title').textContent = article.title;
-  document.querySelector('#reader-meta').innerHTML = `<span>${formatDate(article.date)}</span><span>${article.minutes} 分鐘閱讀</span>`;
-  document.querySelector('#reader-content').textContent = article.content;
-  reader.showModal();
+  const card = event.target.closest('.article-card'); if (!card) return;
+  location.hash = `article/${encodeURIComponent(card.dataset.id)}`;
+});
+articleGrid.addEventListener('keydown', event => {
+  if ((event.key === 'Enter' || event.key === ' ') && event.target.classList.contains('article-card')) { event.preventDefault(); location.hash = `article/${encodeURIComponent(event.target.dataset.id)}`; }
 });
 
 document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.filter').forEach(item => item.classList.remove('active')); button.classList.add('active'); activeCategory = button.dataset.filter; renderArticles(); }));
@@ -117,16 +113,29 @@ const savedTheme = localStorage.getItem('blog-theme'); setTheme(savedTheme ? sav
 themeToggle.addEventListener('click', () => { const dark = !body.classList.contains('dark'); setTheme(dark); localStorage.setItem('blog-theme', dark ? 'dark' : 'light'); });
 document.querySelector('.subscribe-form').addEventListener('submit', event => { event.preventDefault(); const form = event.currentTarget; form.querySelector('.form-message').textContent = `訂閱成功！下一則技術更新會寄到 ${form.querySelector('input').value}`; form.querySelector('button').textContent = '已訂閱'; form.querySelector('button').disabled = true; });
 
-const pageTitles = { home: 'Derek.dev｜IT Engineer Notes', articles: '技術文章｜Derek.dev', manager: '文章管理｜Derek.dev' };
+const pageTitles = { home: 'Derek.dev｜IT Engineer Notes', articles: '技術文章｜Derek.dev', manager: '文章管理｜Derek.dev', article: '文章｜Derek.dev' };
+function renderArticlePage(id) {
+  const article = articles.find(item => item.id === id);
+  if (!article) return false;
+  document.querySelector('#reader-category').textContent = categoryNames[article.category];
+  document.querySelector('#reader-title').textContent = article.title;
+  document.querySelector('#reader-summary').textContent = article.summary;
+  document.querySelector('#reader-meta').innerHTML = `<span>${formatDate(article.date)}</span><span>${article.minutes} 分鐘閱讀</span><span>BY DEREK</span>`;
+  document.querySelector('#reader-content').textContent = article.content;
+  document.title = `${article.title}｜Derek.dev`;
+  return true;
+}
 function showPage(route, shouldScroll = true) {
-  const page = pageTitles[route] ? route : 'home';
+  const [routeName, encodedId] = route.split('/');
+  let page = pageTitles[routeName] ? routeName : 'home';
+  if (page === 'article' && !renderArticlePage(decodeURIComponent(encodedId || ''))) page = 'articles';
   document.querySelectorAll('[data-page]').forEach(section => { section.hidden = section.dataset.page !== page; });
   document.querySelectorAll('nav .route-link').forEach(link => {
     const active = link.dataset.route === page;
     link.classList.toggle('active', active);
     if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
   });
-  document.title = pageTitles[page];
+  if (page !== 'article') document.title = pageTitles[page];
   if (shouldScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
