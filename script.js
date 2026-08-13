@@ -17,6 +17,71 @@ const noResults = document.querySelector('.no-results');
 const managerEmpty = document.querySelector('#manager-empty');
 const editor = document.querySelector('#article-dialog');
 const articleForm = document.querySelector('#article-form');
+const contentEditor = document.querySelector('#article-content');
+const editorPreview = document.querySelector('#editor-preview');
+
+function escapeHtml(value) { return value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char])); }
+function inlineMarkdown(value) {
+  const code = [];
+  let html = escapeHtml(value).replace(/`([^`]+)`/g, (_, text) => { code.push(`<code>${text}</code>`); return `\u0000${code.length - 1}\u0000`; });
+  html = html
+    .replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/~~([^~]+)~~/g, '<del>$1</del>')
+    .replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+  return html.replace(/\u0000(\d+)\u0000/g, (_, index) => code[Number(index)]);
+}
+function markdownToHtml(markdown) {
+  const lines = markdown.replace(/\r/g, '').split('\n');
+  let html = '', paragraph = [], listType = '';
+  const flushParagraph = () => { if (paragraph.length) { html += `<p>${paragraph.map(inlineMarkdown).join('<br>')}</p>`; paragraph = []; } };
+  const closeList = () => { if (listType) { html += `</${listType}>`; listType = ''; } };
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (line.startsWith('```')) {
+      flushParagraph(); closeList(); const language = line.slice(3).trim(); const code = [];
+      i += 1; while (i < lines.length && !lines[i].startsWith('```')) { code.push(lines[i]); i += 1; }
+      html += `<pre><code${language ? ` class="language-${escapeHtml(language)}"` : ''}>${escapeHtml(code.join('\n'))}</code></pre>`; continue;
+    }
+    const tableNext = i + 1 < lines.length && /^\s*\|?\s*:?-{3,}/.test(lines[i + 1]);
+    if (line.includes('|') && tableNext) {
+      flushParagraph(); closeList(); const headers = line.replace(/^\||\|$/g, '').split('|'); i += 2; const rows = [];
+      while (i < lines.length && lines[i].includes('|') && lines[i].trim()) { rows.push(lines[i].replace(/^\||\|$/g, '').split('|')); i += 1; } i -= 1;
+      html += `<table><thead><tr>${headers.map(cell => `<th>${inlineMarkdown(cell.trim())}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${inlineMarkdown(cell.trim())}</td>`).join('')}</tr>`).join('')}</tbody></table>`; continue;
+    }
+    const heading = line.match(/^(#{1,6})\s+(.+)/);
+    if (heading) { flushParagraph(); closeList(); const level = heading[1].length; html += `<h${level}>${inlineMarkdown(heading[2])}</h${level}>`; continue; }
+    if (/^---+$/.test(line.trim())) { flushParagraph(); closeList(); html += '<hr>'; continue; }
+    if (line.startsWith('> ')) { flushParagraph(); closeList(); html += `<blockquote>${inlineMarkdown(line.slice(2))}</blockquote>`; continue; }
+    const task = line.match(/^\s*- \[([ xX])\]\s+(.+)/);
+    const bullet = line.match(/^\s*[-*]\s+(.+)/);
+    const ordered = line.match(/^\s*\d+\.\s+(.+)/);
+    if (task || bullet || ordered) {
+      flushParagraph(); const nextType = ordered ? 'ol' : 'ul'; if (listType !== nextType) { closeList(); html += `<${nextType}>`; listType = nextType; }
+      if (task) html += `<li class="task-item"><input type="checkbox" disabled ${task[1].trim() ? 'checked' : ''}> ${inlineMarkdown(task[2])}</li>`;
+      else html += `<li>${inlineMarkdown((bullet || ordered)[1])}</li>`; continue;
+    }
+    closeList(); if (!line.trim()) flushParagraph(); else paragraph.push(line);
+  }
+  flushParagraph(); closeList(); return html;
+}
+
+function updateEditorPreview() {
+  editorPreview.innerHTML = markdownToHtml(contentEditor.value);
+  document.querySelector('#editor-count').textContent = `${contentEditor.value.replace(/\s/g, '').length} 字`;
+}
+function replaceSelection(before, after = before, placeholder = '文字') {
+  const start = contentEditor.selectionStart, end = contentEditor.selectionEnd;
+  const selected = contentEditor.value.slice(start, end) || placeholder;
+  contentEditor.setRangeText(`${before}${selected}${after}`, start, end, 'select'); contentEditor.focus(); updateEditorPreview();
+}
+function prefixLines(prefix) {
+  const start = contentEditor.value.lastIndexOf('\n', contentEditor.selectionStart - 1) + 1;
+  const endBreak = contentEditor.value.indexOf('\n', contentEditor.selectionEnd); const end = endBreak < 0 ? contentEditor.value.length : endBreak;
+  const selected = contentEditor.value.slice(start, end).split('\n').map((line, index) => prefix === '1. ' ? `${index + 1}. ${line}` : `${prefix}${line}`).join('\n');
+  contentEditor.setRangeText(selected, start, end, 'end'); contentEditor.focus(); updateEditorPreview();
+}
 
 function loadArticles() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || seedArticles; }
@@ -72,8 +137,23 @@ function openEditor(article = null) {
   document.querySelector('#article-minutes').value = article?.minutes || 5;
   document.querySelector('#article-summary').value = article?.summary || '';
   document.querySelector('#article-content').value = article?.content || '';
+  contentEditor.hidden = false; editorPreview.hidden = true; document.querySelector('.preview-toggle').classList.remove('active'); updateEditorPreview();
   editor.showModal();
 }
+
+document.querySelector('.editor-toolbar').addEventListener('click', event => {
+  const button = event.target.closest('button'); if (!button) return;
+  if (button.dataset.wrap) replaceSelection(button.dataset.wrap);
+  if (button.dataset.line) prefixLines(button.dataset.line);
+  if (button.dataset.action === 'undo' || button.dataset.action === 'redo') { contentEditor.focus(); document.execCommand(button.dataset.action); updateEditorPreview(); }
+  if (button.dataset.action === 'link') { const url = prompt('連結網址（https://…）'); if (url) replaceSelection('[', `](${url})`, '連結文字'); }
+  if (button.dataset.action === 'image') { const url = prompt('圖片網址（https://…）'); if (url) replaceSelection('![', `](${url})`, '圖片說明'); }
+  if (button.dataset.action === 'table') replaceSelection('\n| 欄位一 | 欄位二 |\n| --- | --- |\n| 內容一 | 內容二 |\n', '', '');
+  if (button.dataset.action === 'rule') replaceSelection('\n---\n', '', '');
+  if (button.dataset.action === 'preview') { const showing = editorPreview.hidden; updateEditorPreview(); editorPreview.hidden = !showing; contentEditor.hidden = showing; button.classList.toggle('active', showing); button.innerHTML = showing ? '✎ 編輯' : '◫ 預覽'; }
+});
+contentEditor.addEventListener('input', updateEditorPreview);
+contentEditor.addEventListener('keydown', event => { if (event.key === 'Tab') { event.preventDefault(); contentEditor.setRangeText('  ', contentEditor.selectionStart, contentEditor.selectionEnd, 'end'); updateEditorPreview(); } });
 
 document.querySelector('#add-article').addEventListener('click', () => openEditor());
 document.querySelectorAll('.dialog-close, .cancel-edit').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
@@ -121,7 +201,7 @@ function renderArticlePage(id) {
   document.querySelector('#reader-title').textContent = article.title;
   document.querySelector('#reader-summary').textContent = article.summary;
   document.querySelector('#reader-meta').innerHTML = `<span>${formatDate(article.date)}</span><span>${article.minutes} 分鐘閱讀</span><span>BY DEREK</span>`;
-  document.querySelector('#reader-content').textContent = article.content;
+  document.querySelector('#reader-content').innerHTML = markdownToHtml(article.content);
   document.title = `${article.title}｜Derek.dev`;
   return true;
 }

@@ -145,7 +145,34 @@
         <label>閱讀時間（分鐘）<input id="article-minutes" type="number" min="1" max="99" value="5" required></label>
       </div>
       <label>文章摘要<textarea id="article-summary" rows="3" maxlength="180" required placeholder="簡短介紹文章內容"></textarea></label>
-      <label>文章內容<textarea id="article-content" rows="8" required placeholder="開始寫作…"></textarea></label>
+      <div class="editor-field">
+        <span class="editor-label">文章內容（支援 Markdown）</span>
+        <div class="markdown-editor">
+          <div class="editor-toolbar" role="toolbar" aria-label="文章格式工具列">
+            <button type="button" data-action="undo" title="復原" aria-label="復原">↶</button>
+            <button type="button" data-action="redo" title="重做" aria-label="重做">↷</button><i></i>
+            <button type="button" data-wrap="**" title="粗體" aria-label="粗體"><b>B</b></button>
+            <button type="button" data-wrap="*" title="斜體" aria-label="斜體"><em>I</em></button>
+            <button type="button" data-wrap="~~" title="刪除線" aria-label="刪除線"><s>S</s></button>
+            <button type="button" data-line="## " title="標題" aria-label="標題">H</button><i></i>
+            <button type="button" data-wrap="`" title="行內程式碼" aria-label="行內程式碼">&lt;/&gt;</button>
+            <button type="button" data-line="> " title="引用" aria-label="引用">❞</button>
+            <button type="button" data-line="- " title="項目清單" aria-label="項目清單">☷</button>
+            <button type="button" data-line="1. " title="編號清單" aria-label="編號清單">1≡</button>
+            <button type="button" data-line="- [ ] " title="待辦清單" aria-label="待辦清單">☑</button><i></i>
+            <button type="button" data-action="link" title="插入連結" aria-label="插入連結">↗</button>
+            <button type="button" data-action="image" title="插入圖片" aria-label="插入圖片">▧</button>
+            <button type="button" data-action="table" title="插入表格" aria-label="插入表格">▦</button>
+            <button type="button" data-action="rule" title="水平線" aria-label="水平線">—</button>
+            <button class="preview-toggle" type="button" data-action="preview" title="切換預覽" aria-label="切換預覽">◫ 預覽</button>
+          </div>
+          <div class="editor-workspace">
+            <textarea id="article-content" rows="14" required placeholder="# 標題&#10;&#10;開始寫作…"></textarea>
+            <div class="editor-preview reader-content" id="editor-preview" hidden></div>
+          </div>
+          <div class="editor-status"><span>Markdown</span><span id="editor-count">0 字</span></div>
+        </div>
+      </div>
       <div class="dialog-actions"><button class="secondary-button cancel-edit" type="button">取消</button><button class="primary-button" type="submit">儲存文章</button></div>
     </form>
   </dialog>
