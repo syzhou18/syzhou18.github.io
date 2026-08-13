@@ -1,10 +1,10 @@
-const STORAGE_KEY = 'shiguang-articles-v1';
-const categoryNames = { design: '設計思考', technology: '科技觀察', life: '生活練習' };
+const STORAGE_KEY = 'derek-dev-articles-v1';
+const categoryNames = { design: '開發實戰', technology: '雲端架構', life: '系統維運' };
 const seedArticles = [
-  { id: 'design-1', title: '好設計不是把東西變漂亮，而是讓人不必想太多', category: 'design', date: '2026-07-28', minutes: 5, summary: '從一張菜單到一個網站，真正貼心的設計，都在默默減少選擇的阻力。', content: '設計的價值不只在視覺，而在於讓資訊變得清楚，讓每一個選擇自然發生。\n\n當使用者不需要停下來猜測下一步，設計就已經完成了它最重要的工作。' },
-  { id: 'ai-1', title: '和 AI 一起工作之後，我更在意「問對問題」', category: 'technology', date: '2026-07-14', minutes: 8, summary: '工具越聰明，人的判斷就越重要。三個讓協作更有效的小練習。', content: 'AI 可以很快地給出答案，但問題的方向仍然由人決定。\n\n先說清楚目標、限制和判斷標準，通常比堆疊更多指令更有效。' },
-  { id: 'life-1', title: '沒有清單的台南週末：在巷弄裡練習迷路', category: 'life', date: '2026-06-30', minutes: 7, summary: '關掉地圖，跟著樹影與咖啡香轉彎，城市會用另一種方式自我介紹。', content: '旅行不一定需要把景點逐一完成。\n\n放慢速度之後，一扇老窗、一碗冰和午後的光，也會成為記憶裡最清楚的段落。' },
-  { id: 'design-2', title: '字體有聲音：中文排版裡的節奏與呼吸', category: 'design', date: '2026-06-16', minutes: 6, summary: '同一句話，換一種字體、行距與留白，就能說出完全不同的語氣。', content: '排版不是把字放進格子，而是安排閱讀時的速度。\n\n適當的行距讓眼睛休息，留白則讓重要的句子被真正看見。' }
+  { id: 'docker-1', title: 'Docker Compose：從開發環境走向穩定部署', category: 'life', date: '2026-08-10', minutes: 8, summary: '整理容器健康檢查、網路隔離、持久化資料與環境變數的實務配置。', content: '容器化的價值不只是「在我的電腦上能跑」，而是建立一致且可重現的執行環境。\n\n本文從 Compose 結構開始，逐步處理 healthcheck、volume、network 與 secrets。' },
+  { id: 'api-1', title: '設計一套不讓前端痛苦的 REST API', category: 'design', date: '2026-07-25', minutes: 7, summary: '從資源命名、狀態碼到錯誤格式，建立一致且容易維護的 API 合約。', content: '好的 API 應該具有可預測性。相同類型的操作使用一致的路徑、回應結構與錯誤格式。\n\n先定義合約，再進行實作，可以大幅降低前後端整合成本。' },
+  { id: 'cloud-1', title: '雲端成本突然暴增？從監控指標找到根因', category: 'technology', date: '2026-07-08', minutes: 10, summary: '一套從帳單異常、資源標籤到流量指標的系統化排查流程。', content: '成本異常通常不是單一服務造成。先依服務與標籤拆解帳單，再對照部署紀錄和流量指標。\n\n最後建立預算告警，讓問題在月底帳單出現以前就被看見。' },
+  { id: 'git-1', title: 'Git Commit 寫得好，除錯時間少一半', category: 'design', date: '2026-06-18', minutes: 5, summary: '可搜尋、可回溯、能說明意圖的提交紀錄，是團隊最低成本的技術文件。', content: '一個 commit 應該只處理一個清楚的目的，並說明為什麼需要這個改動。\n\n當 production 出現問題時，乾淨的歷史能讓 bisect 與 rollback 更安全。' }
 ];
 
 let articles = loadArticles();
@@ -115,9 +115,9 @@ const themeColor = document.querySelector('meta[name="theme-color"]');
 function setTheme(dark) { body.classList.toggle('dark', dark); themeToggle.setAttribute('aria-label', dark ? '切換淺色模式' : '切換深色模式'); themeColor.content = dark ? '#18201c' : '#f4f0e8'; }
 const savedTheme = localStorage.getItem('blog-theme'); setTheme(savedTheme ? savedTheme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
 themeToggle.addEventListener('click', () => { const dark = !body.classList.contains('dark'); setTheme(dark); localStorage.setItem('blog-theme', dark ? 'dark' : 'light'); });
-document.querySelector('.subscribe-form').addEventListener('submit', event => { event.preventDefault(); const form = event.currentTarget; form.querySelector('.form-message').textContent = `謝謝你！下一封筆記會寄到 ${form.querySelector('input').value}`; form.querySelector('button').textContent = '已訂閱'; form.querySelector('button').disabled = true; });
+document.querySelector('.subscribe-form').addEventListener('submit', event => { event.preventDefault(); const form = event.currentTarget; form.querySelector('.form-message').textContent = `訂閱成功！下一則技術更新會寄到 ${form.querySelector('input').value}`; form.querySelector('button').textContent = '已訂閱'; form.querySelector('button').disabled = true; });
 
-const pageTitles = { home: '拾光筆記｜設計、科技與日常', articles: '所有文章｜拾光筆記', manager: '文章管理｜拾光筆記' };
+const pageTitles = { home: 'Derek.dev｜IT Engineer Notes', articles: '技術文章｜Derek.dev', manager: '文章管理｜Derek.dev' };
 function showPage(route, shouldScroll = true) {
   const page = pageTitles[route] ? route : 'home';
   document.querySelectorAll('[data-page]').forEach(section => { section.hidden = section.dataset.page !== page; });

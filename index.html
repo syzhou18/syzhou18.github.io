@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="拾光筆記——關於設計、科技與日常觀察的個人部落格。">
-  <meta name="theme-color" content="#f5f0e8">
-  <title>拾光筆記｜設計、科技與日常</title>
+  <meta name="description" content="Derek.dev——系統架構、雲端維運與軟體開發實戰筆記。">
+  <meta name="theme-color" content="#090d12">
+  <title>Derek.dev｜IT Engineer Notes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand route-link" href="#home" aria-label="拾光筆記首頁" data-route="home">
-      <span class="brand-mark" aria-hidden="true">拾</span>
-      <span>拾光筆記</span>
+    <a class="brand route-link" href="#home" aria-label="Derek.dev 首頁" data-route="home">
+      <span class="brand-mark" aria-hidden="true">&gt;_</span>
+      <span>Derek.dev</span>
     </a>
     <nav aria-label="主要導覽">
       <a class="route-link" href="#home" data-route="home">首頁</a>
@@ -29,10 +29,10 @@
   <main id="top">
     <section class="hero" aria-labelledby="hero-title" data-page="home">
       <div class="hero-copy">
-        <p class="eyebrow">Issue 24 · 生活觀察誌</p>
-        <h1 id="hero-title">在快速的世界裡，<em>慢慢想清楚。</em></h1>
-        <p class="hero-intro">寫設計、科技，也寫那些讓日常變得值得記住的小事。每兩週更新一次，不追熱點，只留下經得起回看的想法。</p>
-        <a class="text-link" href="#articles">閱讀最新文章 <span aria-hidden="true">↘</span></a>
+        <p class="eyebrow">SYSTEM ONLINE · TAIPEI / UTC+8</p>
+        <h1 id="hero-title">Build systems.<br><em>Share the process.</em></h1>
+        <p class="hero-intro">我是 Derek，一名 IT 工程師。這裡記錄系統架構、雲端維運、自動化與開發現場踩過的坑。</p>
+        <a class="text-link" href="#articles">瀏覽技術文章 <span aria-hidden="true">→</span></a>
       </div>
       <div class="hero-art" aria-hidden="true">
         <span class="sun"></span>
@@ -40,22 +40,22 @@
         <span class="arch arch-two"></span>
         <span class="leaf leaf-one"></span>
         <span class="leaf leaf-two"></span>
-        <p>觀察<br>思考<br>記錄</p>
+        <p>CODE<br>SHIP<br>LEARN</p>
       </div>
     </section>
 
     <section class="featured" aria-labelledby="featured-title" data-page="home">
-      <div class="featured-visual" role="img" aria-label="抽象的晨光與窗景插畫">
+      <div class="featured-visual" role="img" aria-label="系統終端機抽象圖形">
         <span class="window-sun"></span>
         <span class="window-line line-one"></span>
         <span class="window-line line-two"></span>
-        <span class="window-label">FEATURED / 024</span>
+        <span class="window-label">$ DEPLOY --PRODUCTION</span>
       </div>
       <article class="featured-copy">
-        <p class="category">生活練習</p>
-        <h2 id="featured-title">晨間散步教我的事：讓思緒有一點留白</h2>
-        <p>當通知、待辦與未讀訊息佔滿生活，我開始每天留三十分鐘，不帶耳機，只是走路。原來最好的想法，常出現在沒有刻意尋找它的時候。</p>
-        <div class="article-meta"><span>2026.08.06</span><span>6 分鐘閱讀</span></div>
+        <p class="category">DEVOPS / FEATURED</p>
+        <h2 id="featured-title">從零建立可靠的 CI/CD Pipeline</h2>
+        <p>從 commit 到 production，拆解自動化測試、映像檔建置、漸進式部署與快速回滾，讓每次上線都可預測、可追蹤。</p>
+        <div class="article-meta"><span>2026.08.12</span><span>10 分鐘閱讀</span></div>
         <a class="button-link" href="#article-morning">繼續閱讀</a>
       </article>
     </section>
@@ -63,8 +63,8 @@
     <section class="articles-section" id="articles" aria-labelledby="articles-title" data-page="articles" hidden>
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Latest stories</p>
-          <h2 id="articles-title">最近寫下的事</h2>
+          <p class="eyebrow">ENGINEERING LOG</p>
+          <h2 id="articles-title">技術文章</h2>
         </div>
         <label class="search-wrap">
           <span class="sr-only">搜尋文章</span>
@@ -75,85 +75,41 @@
 
       <div class="filters" role="group" aria-label="依分類篩選文章">
         <button class="filter active" type="button" data-filter="all">全部</button>
-        <button class="filter" type="button" data-filter="design">設計</button>
-        <button class="filter" type="button" data-filter="technology">科技</button>
-        <button class="filter" type="button" data-filter="life">生活</button>
+        <button class="filter" type="button" data-filter="design">開發</button>
+        <button class="filter" type="button" data-filter="technology">雲端</button>
+        <button class="filter" type="button" data-filter="life">維運</button>
       </div>
 
-      <div class="article-grid" aria-live="polite">
-        <article class="article-card" data-category="design" data-search="好設計不是把東西變漂亮 留白 閱讀">
-          <div class="card-number">01</div>
-          <div class="card-body">
-            <p class="category">設計思考</p>
-            <h3>好設計不是把東西變漂亮，而是讓人不必想太多</h3>
-            <p>從一張菜單到一個網站，真正貼心的設計，都在默默減少選擇的阻力。</p>
-            <div class="article-meta"><span>2026.07.28</span><span>5 分鐘</span></div>
-          </div>
-          <a href="#article-design" aria-label="閱讀：好設計不是把東西變漂亮">↗</a>
-        </article>
-
-        <article class="article-card" data-category="technology" data-search="人工智慧 AI 工具 保持好奇 科技">
-          <div class="card-number">02</div>
-          <div class="card-body">
-            <p class="category">科技觀察</p>
-            <h3>和 AI 一起工作之後，我更在意「問對問題」</h3>
-            <p>工具越聰明，人的判斷就越重要。三個讓協作更有效的小練習。</p>
-            <div class="article-meta"><span>2026.07.14</span><span>8 分鐘</span></div>
-          </div>
-          <a href="#article-ai" aria-label="閱讀：和 AI 一起工作之後">↗</a>
-        </article>
-
-        <article class="article-card" data-category="life" data-search="旅行 台南 巷弄 慢生活 日常">
-          <div class="card-number">03</div>
-          <div class="card-body">
-            <p class="category">城市散步</p>
-            <h3>沒有清單的台南週末：在巷弄裡練習迷路</h3>
-            <p>關掉地圖，跟著樹影與咖啡香轉彎，城市會用另一種方式自我介紹。</p>
-            <div class="article-meta"><span>2026.06.30</span><span>7 分鐘</span></div>
-          </div>
-          <a href="#article-tainan" aria-label="閱讀：沒有清單的台南週末">↗</a>
-        </article>
-
-        <article class="article-card" data-category="design" data-search="字體 排版 中文 設計 閱讀節奏">
-          <div class="card-number">04</div>
-          <div class="card-body">
-            <p class="category">視覺筆記</p>
-            <h3>字體有聲音：中文排版裡的節奏與呼吸</h3>
-            <p>同一句話，換一種字體、行距與留白，就能說出完全不同的語氣。</p>
-            <div class="article-meta"><span>2026.06.16</span><span>6 分鐘</span></div>
-          </div>
-          <a href="#article-type" aria-label="閱讀：字體有聲音">↗</a>
-        </article>
-      </div>
+      <div class="article-grid" aria-live="polite"></div>
       <p class="no-results" hidden>沒有找到符合的文章，換個關鍵字試試看。</p>
     </section>
 
     <section class="about" id="about" aria-labelledby="about-title" data-page="home">
-      <div class="portrait" aria-hidden="true"><span>拾</span></div>
+      <div class="portrait" aria-hidden="true"><span>DX</span></div>
       <div>
-        <p class="eyebrow">About the writer</p>
-        <h2 id="about-title">嗨，我是拾光的人。</h2>
-        <p>一名在台北生活的產品設計師。喜歡把複雜的事情說簡單，也相信好的觀察值得被好好保存。這裡是我的公開筆記本。</p>
-        <p class="signature">寫給此刻，也寫給未來。</p>
+        <p class="eyebrow">WHOAMI</p>
+        <h2 id="about-title">嗨，我是 Derek。</h2>
+        <p>專注於後端系統、雲端基礎設施與 DevOps。喜歡把重複工作自動化，也喜歡把複雜問題整理成能直接實作的技術筆記。</p>
+        <p class="signature">Keep shipping. Keep learning.</p>
       </div>
     </section>
 
     <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title" data-page="home">
       <div>
-        <p class="eyebrow">A quiet letter</p>
-        <h2 id="newsletter-title">偶爾，寄一封信給你。</h2>
-        <p>新文章、近期讀物，還有一些未成篇的念頭。每月最多兩封，不打擾。</p>
+        <p class="eyebrow">RELEASE NOTES</p>
+        <h2 id="newsletter-title">技術更新，直接送達。</h2>
+        <p>新文章、實用工具與工程實戰摘要。低頻率，只寄值得讀的內容。</p>
       </div>
       <form class="subscribe-form">
         <label class="sr-only" for="email">電子信箱</label>
         <input id="email" type="email" placeholder="你的電子信箱" required>
-        <button type="submit">訂閱筆記</button>
+        <button type="submit">訂閱更新</button>
         <p class="form-message" role="status"></p>
       </form>
     </section>
     <section class="manager" id="manager" aria-labelledby="manager-title" data-page="manager" hidden>
       <div class="manager-heading">
-        <div><p class="eyebrow">Article studio</p><h2 id="manager-title">文章管理</h2><p>新增、編輯或刪除文章；變更會儲存在這台裝置。</p></div>
+        <div><p class="eyebrow">Article studio</p><h2 id="manager-title">文章管理</h2></div>
         <button class="primary-button" id="add-article" type="button">＋ 新增文章</button>
       </div>
       <div class="manager-list" id="manager-list"></div>
@@ -167,7 +123,7 @@
       <input id="article-id" type="hidden">
       <label>文章標題<input id="article-title" type="text" maxlength="80" required placeholder="輸入文章標題"></label>
       <div class="form-row">
-        <label>分類<select id="article-category" required><option value="design">設計</option><option value="technology">科技</option><option value="life">生活</option></select></label>
+        <label>分類<select id="article-category" required><option value="design">開發</option><option value="technology">雲端</option><option value="life">維運</option></select></label>
         <label>日期<input id="article-date" type="date" required></label>
         <label>閱讀時間（分鐘）<input id="article-minutes" type="number" min="1" max="99" value="5" required></label>
       </div>
@@ -182,9 +138,9 @@
   </dialog>
 
   <footer>
-    <a class="brand footer-brand route-link" href="#home" data-route="home"><span class="brand-mark">拾</span><span>拾光筆記</span></a>
-    <p>© 2026 拾光筆記 · 保留思考的餘地</p>
-    <div><a href="#">Instagram</a><a href="#">Threads</a></div>
+    <a class="brand footer-brand route-link" href="#home" data-route="home"><span class="brand-mark">&gt;_</span><span>Derek.dev</span></a>
+    <p>© 2026 Derek.dev · Built with HTML / CSS / JS</p>
+    <div><a href="https://github.com/syzhou18">GitHub</a><a href="#articles">Blog</a></div>
   </footer>
 
   <script src="script.js"></script>
