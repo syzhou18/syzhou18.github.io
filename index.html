@@ -44,22 +44,6 @@
       </div>
     </section>
 
-    <section class="featured" aria-labelledby="featured-title" data-page="home">
-      <div class="featured-visual" role="img" aria-label="系統終端機抽象圖形">
-        <span class="window-sun"></span>
-        <span class="window-line line-one"></span>
-        <span class="window-line line-two"></span>
-        <span class="window-label">$ DEPLOY --PRODUCTION</span>
-      </div>
-      <article class="featured-copy">
-        <p class="category">DEVOPS / FEATURED</p>
-        <h2 id="featured-title">從零建立可靠的 CI/CD Pipeline</h2>
-        <p>從 commit 到 production，拆解自動化測試、映像檔建置、漸進式部署與快速回滾，讓每次上線都可預測、可追蹤。</p>
-        <div class="article-meta"><span>2026.08.12</span><span>10 分鐘閱讀</span></div>
-        <a class="button-link" href="#article/docker-1">繼續閱讀</a>
-      </article>
-    </section>
-
     <section class="articles-section" id="articles" aria-labelledby="articles-title" data-page="articles" hidden>
       <div class="section-heading">
         <div>
@@ -107,14 +91,6 @@
         <p class="form-message" role="status"></p>
       </form>
     </section>
-    <section class="manager" id="manager" aria-labelledby="manager-title" data-page="manager" hidden>
-      <div class="manager-heading">
-        <div><p class="eyebrow">Article studio</p><h2 id="manager-title">文章管理</h2></div>
-        <button class="primary-button" id="add-article" type="button">＋ 新增文章</button>
-      </div>
-      <div class="manager-list" id="manager-list"></div>
-      <p class="manager-empty" id="manager-empty" hidden>目前沒有文章，新增第一篇吧。</p>
-    </section>
     <section class="article-page" id="article-page" data-page="article" hidden>
       <div class="article-page-inner">
         <a class="back-link" href="#articles" aria-label="返回文章列表">← 返回所有文章</a>
@@ -133,49 +109,6 @@
       </div>
     </section>
   </main>
-
-  <dialog class="article-dialog" id="article-dialog" aria-labelledby="dialog-title">
-    <form id="article-form">
-      <div class="dialog-heading"><div><p class="eyebrow">Article editor</p><h2 id="dialog-title">新增文章</h2></div><button class="dialog-close" type="button" aria-label="關閉">×</button></div>
-      <input id="article-id" type="hidden">
-      <label>文章標題<input id="article-title" type="text" maxlength="80" required placeholder="輸入文章標題"></label>
-      <div class="form-row">
-        <label>分類<select id="article-category" required><option value="design">開發</option><option value="technology">雲端</option><option value="life">維運</option></select></label>
-        <label>日期<input id="article-date" type="date" required></label>
-        <label>閱讀時間（分鐘）<input id="article-minutes" type="number" min="1" max="99" value="5" required></label>
-      </div>
-      <label>文章摘要<textarea id="article-summary" rows="3" maxlength="180" required placeholder="簡短介紹文章內容"></textarea></label>
-      <div class="editor-field">
-        <span class="editor-label">文章內容（支援 Markdown）</span>
-        <div class="markdown-editor">
-          <div class="editor-toolbar" role="toolbar" aria-label="文章格式工具列">
-            <button type="button" data-action="undo" title="復原" aria-label="復原">↶</button>
-            <button type="button" data-action="redo" title="重做" aria-label="重做">↷</button><i></i>
-            <button type="button" data-wrap="**" title="粗體" aria-label="粗體"><b>B</b></button>
-            <button type="button" data-wrap="*" title="斜體" aria-label="斜體"><em>I</em></button>
-            <button type="button" data-wrap="~~" title="刪除線" aria-label="刪除線"><s>S</s></button>
-            <button type="button" data-line="## " title="標題" aria-label="標題">H</button><i></i>
-            <button type="button" data-wrap="`" title="行內程式碼" aria-label="行內程式碼">&lt;/&gt;</button>
-            <button type="button" data-line="> " title="引用" aria-label="引用">❞</button>
-            <button type="button" data-line="- " title="項目清單" aria-label="項目清單">☷</button>
-            <button type="button" data-line="1. " title="編號清單" aria-label="編號清單">1≡</button>
-            <button type="button" data-line="- [ ] " title="待辦清單" aria-label="待辦清單">☑</button><i></i>
-            <button type="button" data-action="link" title="插入連結" aria-label="插入連結">↗</button>
-            <button type="button" data-action="image" title="插入圖片" aria-label="插入圖片">▧</button>
-            <button type="button" data-action="table" title="插入表格" aria-label="插入表格">▦</button>
-            <button type="button" data-action="rule" title="水平線" aria-label="水平線">—</button>
-            <button class="preview-toggle" type="button" data-action="preview" title="切換預覽" aria-label="切換預覽">◫ 預覽</button>
-          </div>
-          <div class="editor-workspace">
-            <textarea id="article-content" rows="14" required placeholder="# 標題&#10;&#10;開始寫作…"></textarea>
-            <div class="editor-preview reader-content" id="editor-preview" hidden></div>
-          </div>
-          <div class="editor-status"><span>Markdown</span><span id="editor-count">0 字</span></div>
-        </div>
-      </div>
-      <div class="dialog-actions"><button class="secondary-button cancel-edit" type="button">取消</button><button class="primary-button" type="submit">儲存文章</button></div>
-    </form>
-  </dialog>
 
   <footer>
     <a class="brand footer-brand route-link" href="#home" data-route="home"><span class="brand-mark">&gt;_</span><span>Derek.dev</span></a>
