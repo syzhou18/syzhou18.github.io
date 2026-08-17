@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": "rapid-fullstack-development",
+    "title": "快速開發全端程式",
+    "category": "design",
+    "date": "2026-08-17",
+    "minutes": 5,
+    "summary": "從 MVP、技術架構與專案骨架，到 Docker、資料庫和 CI/CD 的全端開發流程。",
+    "file": "rapid-fullstack-development.md"
+  }
+]
